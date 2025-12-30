@@ -200,9 +200,9 @@ a.sidebar-link:hover{
 .btn:hover {
     /* box-shadow: 0 4px 12px rgba(0,0,0,0.15); */
     /* box-shadow: 0 2px 4px #0f1e5e; */
-    background-color: #FF7518;
+    /* background-color: primary; */
     border: none;
-    color: #191919;
+    color: #ffffff;
 }
 .card-body i{
     font-size: 1.5rem;

@@ -67,12 +67,7 @@
                             <label>Penerima</label>
                             <input type="text" name="penerima" class="form-control">
                         </div>
-
-                        <div class="mt-3">
-                            <label>Keterangan</label>
-                            <textarea name="keterangan" class="form-control"></textarea>
-                            <!-- </div> -->
-                        </div>
+                       
 
                         <div class="row mt-3">
                             <!-- <div class="col-md-4">

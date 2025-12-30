@@ -273,7 +273,7 @@ $(document).ready(function() {
     $('form').on('submit', function() {
         $('.rupiah-input').each(function() {
             let nilai = $(this).val().replace(/\./g, '');  
-            $(this).val(nilai);  // kirim angka murni ke backend
+            $(this).val(nilai);
         });
     });
 

@@ -16,7 +16,7 @@ class daftarBankController extends Controller
         $search = $request->keyword;
         $data = BankTujuan::when($search, function($query, $search) {
             return $query->where('nama_tujuan', 'like', "%{$search}%");
-        })->latest()->get();
+        })->get();
         return view('cash_bank.saldo.daftarBank', compact('data'));
     }
 

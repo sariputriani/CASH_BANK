@@ -10,40 +10,16 @@
     </div>
 
     <!-- Search + Action Buttons -->
-    <div class="row mb-3">
+    <!--  -->
+
+    <!-- Table Section -->
+    <div class="row">
         <div class="col-12">
-            <div class="card rounded-3 border-0 shadow-sm">
+            <div class="card rounded-3 border-0 shadow-sm" id="printArea">
                 <div class="card-body">
-                    <div class="row g-3">
-                       
-                        <!-- <form action="{{ route('bank-keluar.index') }}" method="GET">
-                            <div class="input-group search-box">
-                                <span class="input-group-text bg-white border-end-0">
-                                    <i class="bi bi-search text-muted"></i>
-                                </span>
-                                <input type="text" 
-                                    name="keyword" 
-                                    class="form-control border-start-0 shadow-none" 
-                                    placeholder="Cari data..." 
-                                    value="{{ request('keyword') }}">
-                            </div>
-                        </form> -->
-                        <div class="col-12 col-lg-6">
-                            <form action="{{ route('bank-keluar.index') }}" method="GET" class="w-100">
-                                <div class="input-group search-box w-75" >
-                                    <span class="input-group-text bg-white border-end-0">
-                                        <i class="bi bi-search"></i>
-                                    </span>
-                                    <input type="text" 
-                                        name="search" 
-                                        class="form-control border-start-0" placeholder="Search Here uraian,agenda_tahun,penerima,kategori,kredit,tanggal,sumber dana,bank tujuan," value="{{ request('search') }}" autofocus>
-                                </div>
-                            </form>
-                        </div>
-                        
-                        <!-- Action Buttons -->
-                        <div class="col-12 col-lg-6">
-                            <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
+                    <div class="justify-content-start align-items-center mb-3">
+                        <!-- <h5 class="mb-0 fw-semibold">Daftar Bank Keluar</h5> -->
+                            <div class="d-flex flex-wrap gap-2">
                                 <button class="btn bg-danger btn-sm d-flex align-items-center gap-1" id="deleteAllSelectedRecord" style="background-color:#dc3545; color: white;">
                                     <i class="bi bi-trash"></i>
                                     <span class="d-none d-sm-inline">Delete All</span>
@@ -73,20 +49,6 @@
                                     <span>Tambah</span>
                                 </button>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Table Section -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card rounded-3 border-0 shadow-sm" id="printArea">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="mb-0 fw-semibold">Daftar Bank Keluar</h5>
                     </div>
                     <hr class="mt-0">
                     
@@ -193,6 +155,8 @@
                                         data-bank="{{ $row->id_bank_tujuan }}"
                                         data-sumber="{{ $row->id_sumber_dana }}"
                                         data-kategori="{{ $row->id_kategori_kriteria }}"
+                                        data-sub="{{ $row->id_sub_kriteria }}"
+                                        data-item="{{ $row->id_item_sub_kriteria }}"
                                         data-jenis="{{ $row->id_jenis_pembayaran }}"
                                         data-kredit="{{ $row->kredit }}">
                                         <i class="bi bi-pencil-square"></i> Edit
@@ -219,38 +183,67 @@
                     </div>
 
                     @include('cash_bank.modal.editKeluar')
-                    
-                    <div class="mt-4 d-flex justify-content-end">
-                        {{ $data->links('vendor.pagination.bootstrap-5') }}
-                    </div>
-                    <!-- {!! $data->appends(Request::except('page'))->render() !!} -->
+
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const modal = document.getElementById('editKeluar');
-    const form  = document.getElementById('formEditKeluar');
+$(document).on('click', '[data-bs-target="#editKeluar"]', function () {
 
-    modal.addEventListener('show.bs.modal', function (event) {
-        const btn = event.relatedTarget;
-        form.action = `/bank-keluar/${btn.dataset.id}`;
+    const btn   = this;
+    const modal = $('#editKeluar');
 
-        modal.querySelector('[name="agenda_tahun"]').value = btn.dataset.agenda;
-        modal.querySelector('[name="penerima"]').value     = btn.dataset.penerima;
-        modal.querySelector('[name="uraian"]').value       = btn.dataset.uraian;
-        modal.querySelector('[name="tanggal"]').value      = btn.dataset.tanggal;
-        modal.querySelector('[name="id_bank_tujuan"]').value   = btn.dataset.bank;
-        modal.querySelector('[name="id_sumber_dana"]').value   = btn.dataset.sumber;
-        modal.querySelector('[name="id_kategori_kriteria"]').value = btn.dataset.kategori;
-        modal.querySelector('[name="id_jenis_pembayaran"]').value  = btn.dataset.jenis;
-        modal.querySelector('[name="kredit"]').value  = btn.dataset.kredit;
+    // reset dulu (PENTING)
+    modal.find('form')[0].reset();
+    $('#sub_kriteria').empty();
+    $('#item_sub_kriteria').empty();
+
+    // set action
+    modal.find('form').attr('action', `/bank-keluar/${btn.dataset.id}`);
+
+    // set field
+    modal.find('[name="agenda_tahun"]').val(btn.dataset.agenda);
+    modal.find('[name="penerima"]').val(btn.dataset.penerima);
+    modal.find('[name="uraian"]').val(btn.dataset.uraian);
+    modal.find('[name="tanggal"]').val(btn.dataset.tanggal);
+    modal.find('[name="id_bank_tujuan"]').val(btn.dataset.bank);
+    modal.find('[name="id_sumber_dana"]').val(btn.dataset.sumber);
+    modal.find('[name="id_jenis_pembayaran"]').val(btn.dataset.jenis);
+    modal.find('[name="kredit"]').val(btn.dataset.kredit);
+    modal.find('[name="nilai_rupiah"]').val(btn.dataset.nilai);
+    modal.find('[name="keterangan"]').val(btn.dataset.keterangan);
+    modal.find('[name="uraian"]').val(btn.dataset.uraian);
+
+    const kategoriID = btn.dataset.kategori;
+    const subID      = btn.dataset.sub;
+    const itemID     = btn.dataset.item;
+
+    $('#kategori').val(kategoriID);
+
+    // load sub
+    $.get('/get-sub-kriteria/' + kategoriID, function (subs) {
+        let opt = '<option value="">Pilih Sub</option>';
+        subs.forEach(s => {
+            opt += `<option value="${s.id_sub_kriteria}">${s.nama_sub_kriteria}</option>`;
+        });
+        $('#sub_kriteria').html(opt).val(subID);
+
+        // load item
+        $.get('/get-item-sub-kriteria/' + subID, function (items) {
+            let opt2 = '<option value="">Pilih Item</option>';
+            items.forEach(i => {
+                opt2 += `<option value="${i.id_item_sub_kriteria}">${i.nama_item_sub_kriteria}</option>`;
+            });
+            $('#item_sub_kriteria').html(opt2).val(itemID);
+        });
     });
 
-    $(function(e){
+    modal.modal('show');
+});
+
+ $(function(e){
         $("#select_all_ids").click(function(){
             $('.checkbox_ids').prop('checked',$(this).prop('checked'));
         });
@@ -290,7 +283,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     });
-});
+
 </script>
 
 <style>
@@ -351,10 +344,10 @@ th{
 }
 /* Table Wrapper dengan Sticky Columns */
 .table-wrapper {
-    max-height: 600px;
-    overflow: auto;
-    margin: 20px;
-    position: relative;
+    overflow-x: auto;
+    /* width: 80%; */
+    /* margin: 20px; */
+
 }
 
 /* Reset table untuk menghilangkan gap */
@@ -495,24 +488,24 @@ input[type="checkbox"] {
 }
 
 /* Scrollbar styling (opsional) */
-.table-wrapper::-webkit-scrollbar {
+/* .table-wrapper::-webkit-scrollbar {
     width: 10px;
     height: 10px;
-}
+} */
 
-.table-wrapper::-webkit-scrollbar-track {
+/* .table-wrapper::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 10px;
-}
+} */
 
-.table-wrapper::-webkit-scrollbar-thumb {
+/* .table-wrapper::-webkit-scrollbar-thumb {
     background: #888;
     border-radius: 10px;
-}
+} */
 
-.table-wrapper::-webkit-scrollbar-thumb:hover {
+/* .table-wrapper::-webkit-scrollbar-thumb:hover {
     background: #555;
-}
+} */
 /* th:nth-child(1){
     width: 160px;height:20px; position: absolute; z-index: 1;
 }
@@ -612,9 +605,9 @@ td:nth-child(2){
 }
 
 /* Table responsive improvements */
-.table-responsive {
+/* .table-responsive {
     -webkit-overflow-scrolling: touch;
-}
+} */
 
 .font-monospace {
     font-family: 'Courier New', monospace;

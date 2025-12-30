@@ -10,15 +10,40 @@
     </div>
 
     <!-- Action Bar -->
-
-    <!-- Table Card -->
-     <div class="row">
+        <div class="row mb-3">
         <div class="col-12">
-            <div class="card rounded-3 border-0 shadow-sm" >
+            <div class="card rounded-3 border-0 shadow-sm">
                 <div class="card-body">
-                    <div class="justify-content-start align-items-center mb-3">
+                    <div class="row g-3">
+                       
+                        <!-- <form action="{{ route('bank-keluar.index') }}" method="GET">
+                            <div class="input-group search-box">
+                                <span class="input-group-text bg-white border-end-0">
+                                    <i class="bi bi-search text-muted"></i>
+                                </span>
+                                <input type="text" 
+                                    name="keyword" 
+                                    class="form-control border-start-0 shadow-none" 
+                                    placeholder="Cari data..." 
+                                    value="{{ request('keyword') }}">
+                            </div>
+                        </form> -->
                         <div class="col-12 col-lg-6">
-                            <div class="d-flex flex-wrap gap-2 justify-content-lg-start">
+                                <form action="{{ route('bank-masuk.index') }}" method="GET" class="w-100">
+                                    <div class="input-group search-box w-75" >
+                                        <span class="input-group-text bg-white border-end-0">
+                                            <i class="bi bi-search"></i>
+                                        </span>
+                                        <input type="text" 
+                                            name="search" 
+                                            class="form-control border-start-0" placeholder="Search Here ...." value="{{ request('search') }}" autofocus>
+                                    </div>
+                                </form>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="col-12 col-lg-6">
+                            <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
                                 <button class="btn bg-danger btn-sm d-flex align-items-center gap-1" id="deleteAllSelectedRecord" style="background-color:#dc3545; color: white;">
                                     <i class="bi bi-trash"></i>
                                     <span class="d-none d-sm-inline">Delete All</span>
@@ -34,6 +59,11 @@
                                 
                                 <a href="{{ url('/bank-masuk/export_excel')}}" class="btn  btn-outline-success"><i class="bi bi-file-earmark-spreadsheet"></i>Download Excel</a>
                                 <a href="{{ url('/bank-masuk/view/pdf')}}" target="_blank" class="btn btn-outline-primary"><i class="bi bi-printer"></i>Download PDF</a>
+                                <!-- <button onclick="window.print()" 
+                                    class="btn bg-success btn-sm d-flex align-items-center gap-1" style=" color: white;">
+                                    <i class="bi bi-printer"></i>
+                                    <span class="d-none d-sm-inline">Export PDF</span>
+                                </button> -->
                                 
                                 <button 
                                 class="btn-tambah btn-success rounded-2 shadow-sm border-0"
@@ -43,6 +73,19 @@
                             </button>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Card -->
+     <div class="row">
+        <div class="col-12">
+            <div class="card rounded-3 border-0 shadow-sm" >
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0 fw-semibold">Daftar Bank Keluar</h5>
                     </div>
                     <hr class="mt-0">
                     <!-- Desktop Table -->
@@ -54,7 +97,7 @@
                    
                     <!-- Mobile/Tablet Card View -->
                     <div class="d-xl-none">
-                        @foreach ($data as $index => $row)
+                        @forelse ($data as $index => $row)
                         <div class="card mb-3 shadow-sm" id="employee_ids{{ $row->id_bank_masuk}}">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-start mb-3">
@@ -169,10 +212,22 @@
                                 </div>
                             </div>
                         </div>
-                        @endforeach
+                        @empty
+                        <div class="text-center py-5">
+                            <i class="bi bi-inbox fs-1 text-muted d-block mb-3"></i>
+                            <p class="text-muted">Data yang anda cari tidak ada</p>
+                        </div>
+                        @endforelse
                     </div>
                     @include('cash_bank.modal.edit')
-
+                <!-- <div class="pull-left">
+                    Showing
+                    {{ $data->firstItem()}} to {{ $data->lastItem() }} of {{ $data->total() }} entries
+                </div> -->
+                    <div class="mt-4 d-flex justify-content-end">
+                        {{ $data->links('vendor.pagination.bootstrap-5') }}
+                    </div>
+                    <!-- {!! $data->appends(Request::except('page'))->render() !!} -->
                 </div>
             </div>
         </div>

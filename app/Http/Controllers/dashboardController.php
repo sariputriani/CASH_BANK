@@ -93,14 +93,14 @@ class dashboardController extends Controller
         $agendaBelumSiapBayar = DB::connection('mysql_agenda_online')
         ->table('dokumens')
         ->whereYear('tanggal_masuk', $tahun)
-        ->where('status_pembayaran', 'belum_dibayar')
-        // ->where('status', '!=','sent_to_pembayaran')
+        ->where('status_pembayaran', 'belum_siap_dibayar')
+        ->where('current_handler', '!=','pembayaran')
         ->value(DB::raw('SUM(dokumens.nilai_rupiah)'));
         $agendaSiapBayar = DB::connection('mysql_agenda_online')
         ->table('dokumens')
         ->whereYear('tanggal_masuk', $tahun)
-        ->where('status', 'sent_to_pembayaran')
-        ->where('status_pembayaran', 'SIAP DIBAYAR')
+        ->where('current_handler', 'pembayaran')
+        ->where('status_pembayaran', 'belum_dibayar')
         ->value(DB::raw('SUM(dokumens.nilai_rupiah)'));
 
         

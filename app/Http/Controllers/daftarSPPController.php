@@ -24,14 +24,11 @@ class daftarSPPController extends Controller
         // $query = DokumenAgenda::select('*',
         //     DB::raw("CONCAT(nomor_agenda,'_',tahun) as agenda_tahun")
         // );
-        $data = DB::connection('mysql_agenda_online')
+        $query = DB::connection('mysql_agenda_online')
         ->table('dokumens')
         ->select(
             '*')
-        ->orderBy('tanggal_masuk', 'asc')
-        ->paginate(25)
-        ->withQueryString();
-        // ->get();
+        ->orderBy('tanggal_masuk', 'asc');
 
         // search
         if ($search) {
@@ -46,14 +43,14 @@ class daftarSPPController extends Controller
 
         // filter status
         if ($filterStatus == "belum") {
-            $query->where('status_pembayaran', 'BELUM SIAP DIBAYAR');
+            $query->where('status_pembayaran', 'belum_siap_dibayar');
         } elseif ($filterStatus == "siap") {
-            $query->where('status_pembayaran', 'siap_bayar');
+            $query->where('status_pembayaran', 'belum_dibayar');
         } elseif ($filterStatus == "sudah") {
-            $query->where('status_pembayaran', 'SUDAH DIBAYAR');
+            $query->where('status_pembayaran', 'sudah_dibayar');
         }
 
-
+        $data = $query->get();
         return view('cash_bank.daftarSPP', compact('data'));
     }
 

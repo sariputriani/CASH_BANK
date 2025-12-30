@@ -16,7 +16,7 @@
                 <div class="card-body">
                     <div class="row g-3">
                        
-                        <div class="col-12 col-lg-6">
+                        <!-- <div class="col-12 col-lg-6"> -->
                             <!-- <form action="{{ route('bank-keluar.index') }}" method="GET">
                                 <div class="input-group search-box">
                                     <span class="input-group-text bg-white border-end-0">

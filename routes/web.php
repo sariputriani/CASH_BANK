@@ -122,9 +122,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/get-sub-kriteria/{id}', [BankKeluarController::class, 'getSub']);
     Route::get('/get-item-sub-kriteria/{id}', [BankKeluarController::class, 'getItem']);
     Route::get('/get-dokumen-detail/{id}', [BankKeluarController::class, 'getDokumenDetail']);
-    
-    Route::get('/bank-masuk/ajax', [BankMasukController::class, 'ajax'])
-    ->name('bank-masuk.ajax');
     Route::resource('bank-keluar', BankKeluarController::class);
 
 });
@@ -168,9 +165,13 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/delete-selected', [BankMasukController::class, 'deleteAll'])
             ->name('delete');
 
+        Route::get('/bank-masuk/ajax', [BankMasukController::class, 'ajax'])
+            ->name('bank-masuk.ajax');
+
     });
 
     Route::resource('bank-masuk', BankMasukController::class);
+
     Route::get('/sub-kriteria/{id}', [BankMasukController::class, 'getSubKriteria']);
     Route::get('/item-sub-kriteria/{id}', [BankMasukController::class, 'getItemSubKriteria']);
 

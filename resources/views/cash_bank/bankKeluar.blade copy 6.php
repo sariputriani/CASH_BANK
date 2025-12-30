@@ -1,68 +1,111 @@
 @extends('layouts/index')
 @section('content')
 
-<div class="container-fluid mt-3">
+<div class="container-fluid mt-4 px-3 px-md-4">
 
-    <!-- Page Header -->
-    <div class="page-header mb-4">
-        <h1 class="page-title">Bank <span class="text-primary-custom">Masuk</span></h1>
-        <p class="page-subtitle text-muted">Data Bank Masuk (Uang Masuk) PTPN IV Regional V</p>
+    <!-- Title Section -->
+    <div class="mb-4">
+        <h1 class="tittle mb-2 fs-3 fs-md-2 fw-bold">Bank<span style="color: #FF7518"> Keluar</span></h1>
+        <small class="text-muted d-block">Ini data Bank Keluar (Uang Keluar) PTPN IV Regional V</small>
     </div>
 
-    <!-- Action Bar -->
-
-    <!-- Table Card -->
-     <div class="row">
+    <!-- Search + Action Buttons -->
+    <div class="row mb-3">
         <div class="col-12">
-            <div class="card rounded-3 border-0 shadow-sm" >
+            <div class="card rounded-3 border-0 shadow-sm">
                 <div class="card-body">
-                    <div class="justify-content-start align-items-center mb-3">
+                    <div class="row g-3">
+                       
+                        <!-- <form action="{{ route('bank-keluar.index') }}" method="GET">
+                            <div class="input-group search-box">
+                                <span class="input-group-text bg-white border-end-0">
+                                    <i class="bi bi-search text-muted"></i>
+                                </span>
+                                <input type="text" 
+                                    name="keyword" 
+                                    class="form-control border-start-0 shadow-none" 
+                                    placeholder="Cari data..." 
+                                    value="{{ request('keyword') }}">
+                            </div>
+                        </form> -->
                         <div class="col-12 col-lg-6">
-                            <div class="d-flex flex-wrap gap-2 justify-content-lg-start">
+                            <form action="{{ route('bank-keluar.index') }}" method="GET" class="w-100">
+                                <div class="input-group search-box w-75" >
+                                    <span class="input-group-text bg-white border-end-0">
+                                        <i class="bi bi-search"></i>
+                                    </span>
+                                    <input type="text" 
+                                        name="search" 
+                                        class="form-control border-start-0" placeholder="Search Here uraian,agenda_tahun,penerima,kategori,kredit,tanggal,sumber dana,bank tujuan," value="{{ request('search') }}" autofocus>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="col-12 col-lg-6">
+                            <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
                                 <button class="btn bg-danger btn-sm d-flex align-items-center gap-1" id="deleteAllSelectedRecord" style="background-color:#dc3545; color: white;">
                                     <i class="bi bi-trash"></i>
                                     <span class="d-none d-sm-inline">Delete All</span>
                                 </button>
                                 
-                                <button class="btn btn-sm d-flex align-items-center gap-1  btn-outline-success" 
+                                <button class="btn btn-sm d-flex align-items-center gap-1" 
                                     style="background-color:#FF7518; color: white;"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#ModalImportFileExcelMasuk">
-                                    <i class="bi bi-file-earmark-spreadsheet"></i>
+                                    data-bs-target="#ModalImportFileExcel">
+                                    <i class="bi bi-database-fill-add"></i>
                                     <span class="d-none d-sm-inline">Import Excel</span>
                                 </button>
+                                <a href="{{ url('/bank-keluar/export_excel')}}" class="btn btn-outline-success"><i class="bi bi-printer"></i>
+                                        Download Excel
+                                    </a>
+                                 <a href="{{ url('/bank-keluar/view/pdf')}}" target="_blank" class="btn btn-outline-primary"><i class="bi bi-printer"></i>Download PDF</a>
+                                <!-- <button onclick="window.print()" 
+                                    class="btn bg-success btn-sm d-flex align-items-center gap-1" style=" color: white;">
+                                    <i class="bi bi-printer"></i>
+                                    <span class="d-none d-sm-inline">Export PDF</span>
+                                </button> -->
                                 
-                                <a href="{{ url('/bank-masuk/export_excel')}}" class="btn  btn-outline-success"><i class="bi bi-file-earmark-spreadsheet"></i>Download Excel</a>
-                                <a href="{{ url('/bank-masuk/view/pdf')}}" target="_blank" class="btn btn-outline-primary"><i class="bi bi-printer"></i>Download PDF</a>
-                                
-                                <button 
-                                class="btn-tambah btn-success rounded-2 shadow-sm border-0"
-                                data-bs-toggle="modal"
-                                data-bs-target="#ModalCreateMasuk">
-                                <i class="bi bi-database-fill-add"></i> Tambah
-                            </button>
+                                <button class="btn bg-primary btn-sm d-flex align-items-center gap-1"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#ModalCreate" style=" color: white;">
+                                    <i class="bi bi-database-fill-add"></i>
+                                    <span>Tambah</span>
+                                </button>
                             </div>
                         </div>
                     </div>
-                    <hr class="mt-0">
-                    <!-- Desktop Table -->
-                    <div class="table-wrapper d-none d-xl-block" id="printArea">
-                            @include('cash_bank.exportExcel.excelMasuk')
-                            {{-- atau @include('cash_bank.exportExcel.excelMasuk', ['data' => $data]) --}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card rounded-3 border-0 shadow-sm" id="printArea">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0 fw-semibold">Daftar Bank Keluar</h5>
                     </div>
+                    <hr class="mt-0">
                     
-                   
+                    <!-- Desktop Table -->
+                    <div class="table-wrapper d-none d-xl-block">
+                        @include('cash_bank.exportExcel.excelKeluar', ['data' => $data])
+                    </div>
+
                     <!-- Mobile/Tablet Card View -->
                     <div class="d-xl-none">
-                        @foreach ($data as $index => $row)
-                        <div class="card mb-3 shadow-sm" id="employee_ids{{ $row->id_bank_masuk}}">
+                        @forelse ($data as $index => $row)
+                        <div class="card mb-3 shadow-sm" id="employee_ids{{ $row->id_bank_keluar}}">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-start mb-3">
                                     <div class="form-check">
                                         <input class="form-check-input checkbox_ids" type="checkbox" 
-                                            value="{{ $row->id_bank_masuk }}" name="ids">
+                                            value="{{ $row->id_bank_keluar }}" name="ids">
                                         <label class="form-check-label fw-bold">
-                                            #{{ $data->firstItem() + $index }} - {{ $row->agenda_tahun }}
+                                            #{{ $index + 1 }} - {{ $row->agenda_tahun }}
                                         </label>
                                     </div>
                                     <span class="badge bg-primary">{{ $row->tanggal }}</span>
@@ -74,12 +117,12 @@
                                         <strong>{{ $row->penerima }}</strong>
                                     </div>
                                     <div class="col-6">
-                                        <small class="text-muted d-block">Nilai Rupiah</small>
-                                        <strong class="text-success">@currency($row->nilai_rupiah)</strong>
+                                        <small class="text-muted d-block">Kredit</small>
+                                        <strong class="text-info">@currency($row->kredit)</strong>
                                     </div>
                                     <div class="col-6">
-                                        <small class="text-muted d-block">Debet</small>
-                                        <strong class="text-info">@currency($row->debet)</strong>
+                                        <small class="text-muted d-block">Nilai Rupiah</small>
+                                        <strong class="text-success">@currency($row->nilai_rupiah)</strong>
                                     </div>
                                     <div class="col-6">
                                         <small class="text-muted d-block">Sumber Dana</small>
@@ -92,18 +135,18 @@
                                     <p class="mb-0">{{ $row->uraian }}</p>
                                 </div>
 
-                                <div class="accordion accordion-flush" id="detail{{ $row->id_bank_masuk }}">
+                                <div class="accordion accordion-flush" id="detail{{ $row->id_bank_keluar }}">
                                     <div class="accordion-item border-0">
                                         <h2 class="accordion-header">
                                             <button class="accordion-button collapsed px-0 py-2" type="button" 
                                                 data-bs-toggle="collapse" 
-                                                data-bs-target="#collapse{{ $row->id_bank_masuk }}">
+                                                data-bs-target="#collapse{{ $row->id_bank_keluar }}">
                                                 <small>Detail Lainnya</small>
                                             </button>
                                         </h2>
-                                        <div id="collapse{{ $row->id_bank_masuk }}" 
+                                        <div id="collapse{{ $row->id_bank_keluar }}" 
                                             class="accordion-collapse collapse" 
-                                            data-bs-parent="#detail{{ $row->id_bank_masuk }}">
+                                            data-bs-parent="#detail{{ $row->id_bank_keluar }}">
                                             <div class="accordion-body px-0">
                                                 <div class="row g-2">
                                                     <div class="col-12">
@@ -137,13 +180,12 @@
                                 </div>
 
                                 <hr>
-                                <div class="d-flex justify-content-end">
-                                    <button
-                                        class="btn btn-edit bg-info"
+                                <div class="d-flex gap-2 justify-content-end">
+                                    <button type="button"
+                                        class="btn btn-primary btn-sm"
                                         data-bs-toggle="modal"
-                                        data-bs-target="#edit"
-
-                                        data-id="{{ $row->id_bank_masuk }}"
+                                        data-bs-target="#editKeluar"
+                                        data-id="{{ $row->id_bank_keluar }}"
                                         data-agenda="{{ $row->agenda_tahun }}"
                                         data-penerima="{{ $row->penerima }}"
                                         data-uraian="{{ $row->uraian }}"
@@ -152,16 +194,15 @@
                                         data-sumber="{{ $row->id_sumber_dana }}"
                                         data-kategori="{{ $row->id_kategori_kriteria }}"
                                         data-jenis="{{ $row->id_jenis_pembayaran }}"
-                                        data-debet="{{ $row->debet }}"
-                                        >
-                                        <i class="bi bi-pencil-square text-white"></i>
-                                        </button>
-                                    <form action="{{ route('bank-masuk.destroy', $row->id_bank_masuk) }}"
+                                        data-kredit="{{ $row->kredit }}">
+                                        <i class="bi bi-pencil-square"></i> Edit
+                                    </button>
+                                    <form action="{{ route('bank-keluar.destroy', $row->id_bank_keluar) }}"
                                         method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
-                                            class="btn bg-danger btn-sm"
+                                            class="btn btn-danger btn-sm"
                                             onclick="return confirm('Yakin ingin menghapus?')">
                                             <i class="bi bi-trash"></i> Hapus
                                         </button>
@@ -169,9 +210,15 @@
                                 </div>
                             </div>
                         </div>
-                        @endforeach
+                        @empty
+                        <div class="text-center py-5">
+                            <i class="bi bi-inbox fs-1 text-muted d-block mb-3"></i>
+                            <p class="text-muted">Data yang anda cari tidak ada</p>
+                        </div>
+                        @endforelse
                     </div>
-                    @include('cash_bank.modal.edit')
+
+                    @include('cash_bank.modal.editKeluar')
 
                 </div>
             </div>
@@ -179,45 +226,27 @@
     </div>
 </div>
 
-<!-- Modals -->
-@include('cash_bank.modal.tambahMasuk')
-@include('cash_bank.modal.importExcelMasuk')
-
-
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const modal = document.getElementById('edit');
-    const form = document.getElementById('formEdit');
+    const modal = document.getElementById('editKeluar');
+    const form  = document.getElementById('formEditKeluar');
 
-    if (modal && form) {
-        modal.addEventListener('show.bs.modal', function (event) {
-            const btn = event.relatedTarget;
-            
-            // Update form action
-            form.action = `/bank-masuk/${btn.dataset.id}`;
+    modal.addEventListener('show.bs.modal', function (event) {
+        const btn = event.relatedTarget;
+        form.action = `/bank-keluar/${btn.dataset.id}`;
 
-            // Populate form fields
-            const fields = {
-                'agenda_tahun': btn.dataset.agenda,
-                'penerima': btn.dataset.penerima,
-                'uraian': btn.dataset.uraian,
-                'tanggal': btn.dataset.tanggal,
-                'id_bank_tujuan': btn.dataset.bank,
-                'id_sumber_dana': btn.dataset.sumber,
-                'id_kategori_kriteria': btn.dataset.kategori,
-                'id_jenis_pembayaran': btn.dataset.jenis,
-                'debet': btn.dataset.debet
-            };
+        modal.querySelector('[name="agenda_tahun"]').value = btn.dataset.agenda;
+        modal.querySelector('[name="penerima"]').value     = btn.dataset.penerima;
+        modal.querySelector('[name="uraian"]').value       = btn.dataset.uraian;
+        modal.querySelector('[name="tanggal"]').value      = btn.dataset.tanggal;
+        modal.querySelector('[name="id_bank_tujuan"]').value   = btn.dataset.bank;
+        modal.querySelector('[name="id_sumber_dana"]').value   = btn.dataset.sumber;
+        modal.querySelector('[name="id_kategori_kriteria"]').value = btn.dataset.kategori;
+        modal.querySelector('[name="id_jenis_pembayaran"]').value  = btn.dataset.jenis;
+        modal.querySelector('[name="kredit"]').value  = btn.dataset.kredit;
+    });
 
-            Object.keys(fields).forEach(key => {
-                const input = modal.querySelector(`[name="${key}"]`);
-                if (input) input.value = fields[key];
-            });
-        });
-    }
-});
-
-$(function(e){
+    $(function(e){
         $("#select_all_ids").click(function(){
             $('.checkbox_ids').prop('checked',$(this).prop('checked'));
         });
@@ -238,7 +267,7 @@ $(function(e){
             if(!confirm('Yakin ingin menghapus data terpilih?')) return;
 
             $.ajax({
-                url: "{{ route('bank-masuk.delete') }}",
+                url: "{{ route('bank-keluar.delete') }}",
                 type: "DELETE",
                 data: {
                     ids: all_ids,
@@ -257,9 +286,43 @@ $(function(e){
             });
         });
     });
+});
 </script>
+
 <style>
-    /* Enhanced Styles */
+/* Print Styles */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #printArea, #printArea * {
+        visibility: visible;
+    }
+
+    #printArea button,
+    #printArea .btn,
+    #printArea .accordion-button {
+        display: none !important;
+    }
+
+    #printArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    .d-xl-none {
+        display: none !important;
+    }
+
+    .d-none.d-xl-block {
+        display: block !important;
+    }
+}
+
+/* Enhanced Styles */
 .search-box .input-group-text {
     border-radius: 0.375rem 0 0 0.375rem;
 }
@@ -284,10 +347,9 @@ th{
 }
 /* Table Wrapper dengan Sticky Columns */
 .table-wrapper {
-    max-height: 600px;
-    overflow: auto;
+    overflow-x: auto;
     margin: 20px;
-    position: relative;
+
 }
 
 /* Reset table untuk menghilangkan gap */
@@ -299,19 +361,19 @@ table {
 }
 
 /* Style untuk semua cell */
-/* td, th {
+td, th {
     border: 1px solid #e2e2e2;
     padding: 12px;
     white-space: nowrap;
     min-width: 80px;
-} */
+}
 
 /* Header background */
-th {
+/* th {
     background-color: #d4e9f7;
     font-weight: 600;
     text-align: left;
-}
+} */
 
 /* Alternate row colors */
 tbody tr:nth-child(even) {
@@ -343,7 +405,7 @@ th:first-child {
 td:nth-child(2), 
 th:nth-child(2) {
     position: sticky;
-    left: 45px;
+    left: 50px;
     z-index: 2;
     background-color: inherit;
     box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
@@ -354,7 +416,7 @@ th:nth-child(2) {
 td:nth-child(3), 
 th:nth-child(3) {
     position: sticky;
-    left: 105px;
+    left: 110px;
     z-index: 2;
     background-color: inherit;
     box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
@@ -365,7 +427,7 @@ th:nth-child(3) {
 td:nth-child(4), 
 th:nth-child(4) {
     position: sticky;
-    left: 205px;
+    left: 210px;
     z-index: 2;
     background-color: inherit;
     box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
@@ -376,7 +438,7 @@ th:nth-child(4) {
 td:nth-child(5), 
 th:nth-child(5) {
     position: sticky;
-    left: 285px;
+    left: 290px;
     z-index: 2;
     background-color: inherit;
     box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
@@ -428,24 +490,85 @@ input[type="checkbox"] {
 }
 
 /* Scrollbar styling (opsional) */
-.table-wrapper::-webkit-scrollbar {
+/* .table-wrapper::-webkit-scrollbar {
     width: 10px;
     height: 10px;
-}
+} */
 
-.table-wrapper::-webkit-scrollbar-track {
+/* .table-wrapper::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 10px;
-}
+} */
 
-.table-wrapper::-webkit-scrollbar-thumb {
+/* .table-wrapper::-webkit-scrollbar-thumb {
     background: #888;
     border-radius: 10px;
+} */
+
+/* .table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #555;
+} */
+/* th:nth-child(1){
+    width: 160px;height:20px; position: absolute; z-index: 1;
 }
 
-.table-wrapper::-webkit-scrollbar-thumb:hover {
-    background: #555;
+td:nth-child(1){
+    box-shadow:5px 0 3px -2px #ccc;
+    width: 160px;
+    position: fixed;
+    position: absolute;
+    z-index: 1;
 }
+td:nth-child(2){
+    box-shadow:5px 0 3px -2px #ccc;
+    width: 160px;
+    position: fixed;
+    position: absolute;
+    z-index: 1;
+}
+td:nth-child(3){
+    box-shadow:5px 0 3px -2px #ccc;
+    width: 160px;
+    position: fixed;
+    position: absolute;
+    z-index: 1;
+}
+td:nth-child(4){
+    box-shadow:5px 0 3px -2px #ccc;
+    width: 160px;
+    position: fixed;
+    position: absolute;
+    z-index: 1;
+}
+
+td:nth-child(2){
+    width: 200px;
+}
+
+ */
+
+/* 
+.table > :not(caption) > * > * {
+    padding: 0.75rem 0.5rem;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+.card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn {
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
 /* Mobile Card Styles */
 .accordion-button:not(.collapsed) {
     background-color: transparent;
@@ -484,14 +607,17 @@ input[type="checkbox"] {
 }
 
 /* Table responsive improvements */
-.table-responsive {
+/* .table-responsive {
     -webkit-overflow-scrolling: touch;
-}
+} */
 
 .font-monospace {
     font-family: 'Courier New', monospace;
 }
-
-
 </style>
+
+{{-- MODAL CREATE & IMPORT --}}
+@include('cash_bank.modal.create')
+@include('cash_bank.modal.importExcel')
+
 @endsection

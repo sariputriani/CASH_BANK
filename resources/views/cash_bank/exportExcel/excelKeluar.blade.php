@@ -8,16 +8,19 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
         
         <!-- style css -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/2.3.6/css/dataTables.dataTables.css">
         <link rel="stylesheet"  href="{{ asset('css/style.css') }}" class="css">
-       <link rel="stylesheet" href="https://unpkg.com/virtual-select-plugin@1.0.37/dist/virtual-select.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/virtual-select-plugin@1.0.37/dist/virtual-select.min.css">
         <script src="https://unpkg.com/virtual-select-plugin@1.0.37/dist/virtual-select.min.js"></script>
 
         <title>Bank Keluar</title>
 
         <link rel="stylesheet" href="https://unpkg.com/virtual-select-plugin@1.0.37/dist/virtual-select.min.css">
-</head>
+        <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+        <script src="https://cdn.datatables.net/2.3.6/js/dataTables.js"></script>
+    </head>
 <body>
-    <table class="table table-hover table-bordered align-middle">
+    <table class="table table-hover table-bordered align-middle display" id="example">
                             <thead class="table-primary text-center">
                                 <tr>
                                     <th style="width: 40px;"><input type="checkbox" id="select_all_ids"></th>
@@ -36,11 +39,12 @@
                                     <th>Kredit (Rp)</th>
                                     <th>Nilai (Rp)</th>
                                     <th>Keterangan</th>
+                                    <th>No SAP</th>
                                     <th style="width: 100px;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($data as $index => $row)
+                                @foreach ($data as $index => $row)
                                 <tr id="employee_ids{{ $row->id_bank_keluar}}">
                                     <td class="sticky-col sticky-check text-center">
                                         <input type="checkbox" name="ids" class="checkbox_ids" value="{{ $row->id_bank_keluar }}">
@@ -52,19 +56,21 @@
                                     <td class="sticky-col sticky-agenda">{{ $row->agenda_tahun }}</td>
                                     <td class="text-center">{{ $row->id_bank_keluar }}</td>
                                     <td class="text-center">{{ $row->tanggal }}</td>
-                                    <td class="text-center">{{ $row->sumberDana->nama_sumber_dana ?? '-' }}</td>
-                                    <td class="text-center">{{ $row->bankTujuan->nama_tujuan ?? '-' }}</td>
-                                    <td class="text-center">{{ $row->kategori->nama_kriteria ?? '-' }}</td>
-                                    <td class="text-center">{{ $row->subKriteria->nama_sub_kriteria ?? '-' }}</td>
-                                    <td class="text-center">{{ $row->itemSubKriteria->nama_item_sub_kriteria ?? '-' }}</td>
-                                    <td class="text-center">{{ $row->penerima }}</td>
+                                    <td >{{ $row->sumberDana->nama_sumber_dana ?? '-' }}</td>
+                                    <td >{{ $row->bankTujuan->nama_tujuan ?? '-' }}</td>
+                                    <td >{{ $row->kategori->nama_kriteria ?? '-' }}</td>
+                                    <td >{{ $row->subKriteria->nama_sub_kriteria ?? '-' }}</td>
+                                    <td >{{ $row->itemSubKriteria->nama_item_sub_kriteria ?? '-' }}</td>
+                                    <td >{{ $row->penerima }}</td>
                                     <td>{{ $row->uraian }}</td>
                                     <td>{{ $row->jenisPembayaran->nama_jenis_pembayaran ?? '-' }}</td>
                                     <td class="text-end font-monospace">@currency($row->kredit)</td>
                                     <td class="text-end font-monospace">@currency($row->nilai_rupiah)</td>
                                     <td>{{ $row->keterangan}}</td>
+                                    <td>{{ $row->no_sap}}</td>
                                     <td class="text-center">
                                         <div class="d-flex gap-1 justify-content-center">
+                                            
                                             <button type="button"
                                                 class="btn bg-primary btn-sm text-white"
                                                 data-bs-toggle="modal"
@@ -77,8 +83,12 @@
                                                 data-bank="{{ $row->id_bank_tujuan }}"
                                                 data-sumber="{{ $row->id_sumber_dana }}"
                                                 data-kategori="{{ $row->id_kategori_kriteria }}"
+                                                data-sub="{{ $row->id_sub_kriteria }}"
+                                                data-item="{{ $row->id_item_sub_kriteria }}"
                                                 data-jenis="{{ $row->id_jenis_pembayaran }}"
-                                                data-kredit="{{ $row->kredit }}">
+                                                data-kredit="{{ $row->kredit }}"
+                                                data-nilai="{{ $row->nilai_rupiah }}"
+                                                data-keterangan="{{ $row->keterangan }}">
                                                 <i class="bi bi-pencil-square"></i>
                                             </button>
                                             <form action="{{ route('bank-keluar.destroy', $row->id_bank_keluar) }}"
@@ -94,15 +104,13 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="17" class="text-center py-4 text-muted">
-                                        <i class="bi bi-inbox fs-1 d-block mb-2"></i>
-                                        Data yang anda cari tidak ada
-                                    </td>
-                                </tr>
-                                @endforelse
+                                @endforeach
                             </tbody>
                         </table>
+
+
+    <script>
+        new DataTable('#example');
+    </script>
 </body>
 </html>

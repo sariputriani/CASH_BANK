@@ -44,7 +44,7 @@ class BankKeluarController extends Controller
             'id_jenis_pembayaran',
             'nilai_rupiah',
             'kredit',
-            'keterangan'
+            'keterangan','no_sap'
         )
         ->with([
             'sumberDana:id_sumber_dana,nama_sumber_dana',
@@ -61,6 +61,7 @@ class BankKeluarController extends Controller
                   ->orWhere('kredit','like',"%$search%")
                   ->orWhere('tanggal','like',"%$search%")
                   ->orWhere('nilai_rupiah','like',"%$search%")
+                  ->orWhere('no_sap','like',"%$search%")
                   ->orWhereHas('sumberDana', function($q2) use ($search){
                       $q2->where('nama_sumber_dana','like',"%$search%");
                   })
@@ -77,8 +78,9 @@ class BankKeluarController extends Controller
         })
         ->orderBy('tanggal', 'asc')
         ->orderBy('id_bank_keluar')
-        ->paginate(25)
-        ->withQueryString();
+        ->get();
+        // ->paginate(25)
+        // ->withQueryString();
             // DB::raw("CONCAT(nomor_agenda,'_',tahun) as agenda_tahun"),
 
     /* ================= DATA AGENDA================= */
@@ -1553,10 +1555,12 @@ $kreditUtama = $pakaiSplit ? 0 : ($validated['kredit'] ?? 0);
             $request->file('fileExcel')
         );
 
-        return redirect()
-            ->route('bank-keluar.index')
-            ->with('success', 'Data berhasil diimport');
-            }
+        // return redirect()
+        //     ->route('bank-keluar.index')
+        //     ->with('success', 'Data berhasil diimport');
+        //     }
+        return response()->json(['redirect' => route('bank-keluar.index'),'success'  => 'Data berhasil diimport!']);
+    }
 
     public function edit(string $id)
     {
