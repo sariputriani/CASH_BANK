@@ -12,6 +12,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithSheetIndex;
 
 
 class importMasuk implements ToModel, WithHeadingRow
@@ -22,7 +23,7 @@ class importMasuk implements ToModel, WithHeadingRow
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
-        // 🔥 PAKSA SEMUA ISI EXCEL DIBACA STRING (ANTI NUMERIC)
+
     public function bindValue(Cell $cell, $value)
     {
         $cell->setValueExplicit((string) $value, DataType::TYPE_STRING);
@@ -74,7 +75,7 @@ class importMasuk implements ToModel, WithHeadingRow
     ? (int) str_replace(['.', ','], '', $row['debet'])
     : 0;
         return new BankMasuk([
-            'agenda_tahun'  => $row['agenda_tahun'],
+             'agenda_tahun'  => $row['agenda_tahun'] ?? null,
              'tanggal'      => $this->parseTanggal($row['tanggal'] ?? null),
 
              'id_sumber_dana' => $sumberDana ? SumberDana::where('nama_sumber_dana', 'LIKE', "%{$sumberDana}%")

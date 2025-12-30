@@ -22,6 +22,7 @@ class dashboardController extends Controller
             'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
         ];
 
+        
         // Inisialisasi array untuk 12 bulan dengan nilai 0
         $total_pengeluaran = array_fill(0, 12, 0);
         $total_pemasukkan = array_fill(0, 12, 0);

@@ -7,8 +7,9 @@ use App\Models\BankTujuan;
 use App\Models\SumberDana;
 use App\Models\SubKriteria;
 use App\Imports\importMasuk;
-use Illuminate\Http\Request;
+use App\Imports\importSheet;
 
+use Illuminate\Http\Request;
 use App\Models\ItemSubKriteria;
 use App\Models\JenisPembayaran;
 use App\Models\KategoriKriteria;
@@ -210,9 +211,14 @@ public function report(Request $request)
         ini_set('memory_limit', '-1');
         set_time_limit(0);
 
-        $file = $request->file('fileExcel')->store('public/import');
+        // $file = $request->file('fileExcel')->store('public/import');
 
-        Excel::import(new importMasuk, $file);
+        // Excel::import(new importSheet, $file);
+
+         Excel::import(
+            new importSheet,
+            $request->file('fileExcel')
+        );
 
         return redirect()
             ->route('bank-masuk.index')

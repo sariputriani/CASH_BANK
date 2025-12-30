@@ -2,7 +2,7 @@
 <div class="modal fade" id="ModalImportFileExcelMasuk" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header bg-success">
+      <div class="modal-header bg-primary">
         <h5 class="modal-title text-white" id="exampleModalLabel"><i class="fas fa-search"></i>Filter Tanggal </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
@@ -14,7 +14,7 @@
                 <input type="file" name="fileExcel" id="fileExcel" class="form-control" required>
             </div>
             <div class="mt-4 text-end">
-                <button type="submit" class="btn bg-primary btn-sm">Terapkan</button>
+                <button type="submit" class="btn bg-primary btn-sm text-white">Terapkan</button>
             </div>
         </form>
 

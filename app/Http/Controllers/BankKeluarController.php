@@ -17,6 +17,7 @@ use App\Models\JenisPembayaran;
 use App\Exports\excelBankKeluar;
 use App\Models\KategoriKriteria;
 use App\Exports\reportKeluarExcel;
+use App\Imports\importSheetKeluar;
 use Illuminate\Support\Facades\DB;
 use App\Models\GabunganMasukKeluar;
 use Maatwebsite\Excel\Facades\Excel;
@@ -1544,9 +1545,13 @@ $kreditUtama = $pakaiSplit ? 0 : ($validated['kredit'] ?? 0);
         ini_set('memory_limit', '-1');
         set_time_limit(0);
 
-        $file = $request->file('fileExcel')->store('public/import');
+        // $file = $request->file('fileExcel')->store('public/import');
 
-        Excel::import(new importKeluar, $file);
+        // Excel::import(new importKeluar, $file);
+         Excel::import(
+            new importSheetKeluar,
+            $request->file('fileExcel')
+        );
 
         return redirect()
             ->route('bank-keluar.index')
