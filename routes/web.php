@@ -162,7 +162,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/view/pdf', [BankMasukController::class, 'view_pdf']);
 
         // delete multiple
-        Route::delete('/delete-selected', [BankMasukController::class, 'deleteAll'])
+        Route::delete('/selected-employee', [BankMasukController::class, 'deleteAll'])
             ->name('delete');
 
         Route::get('/bank-masuk/ajax', [BankMasukController::class, 'ajax'])

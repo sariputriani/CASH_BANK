@@ -43,9 +43,7 @@
                 <td class="sticky-col sticky-check text-center">
                     <input type="checkbox" name="ids" class="checkbox_ids" value="{{ $row->id_bank_masuk }}">
                 </td>
-                <td class="sticky-col sticky-no text-center">{{ method_exists($data, 'firstItem') 
-                    ? $data->firstItem() + $index 
-                    : $index + 1 }}</td>
+                <td class="sticky-col sticky-no text-center">{{  $index + 1 }}</td>
                 <td class="text-center">{{ $row->agenda_tahun }}</td>
                 <td class="text-center">{{ $index + 1 }}</td>
                 <td class="text-center">{{ $row->tanggal }}</td>

@@ -77,8 +77,9 @@ class BankKeluarController extends Controller
         })
         ->orderBy('tanggal', 'asc')
         ->orderBy('id_bank_keluar')
-        ->paginate(25)
-        ->withQueryString();
+       ->get();
+        // ->paginate(25)
+        // ->withQueryString();
             // DB::raw("CONCAT(nomor_agenda,'_',tahun) as agenda_tahun"),
 
     /* ================= DATA AGENDA================= */
@@ -1636,7 +1637,7 @@ $kreditUtama = $pakaiSplit ? 0 : ($validated['kredit'] ?? 0);
         return redirect()->route('bank-keluar.index')->with('success', 'Data berhasil diperbarui');
     }
 
-      public function destroy(string $id)
+    public function destroy(string $id)
     {
         $data = bankKeluar::findOrFail($id);
         $data->delete();

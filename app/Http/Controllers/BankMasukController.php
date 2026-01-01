@@ -70,6 +70,8 @@ class BankMasukController extends Controller
        ->orderBy('tanggal', 'asc')
        ->orderBy('id_bank_masuk')
        ->get();
+        // ->paginate(25)
+        // ->withQueryString();
 
         return view('cash_bank.bankMasuk', [
             'data' => $data,
@@ -245,7 +247,7 @@ public function report(Request $request)
 
         return redirect()->route('bank-masuk.index')->with('success', 'Data berhasil dihapus');
     }
-    
+
     public function deleteAll(Request $request)
     {
         $ids = $request->ids;
