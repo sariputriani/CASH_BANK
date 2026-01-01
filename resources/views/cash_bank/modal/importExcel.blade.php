@@ -14,7 +14,7 @@
                 <input type="file" name="fileExcel" id="fileExcel" class="form-control" required>
             </div>
             <div class="mt-4 text-end">
-                <button type="submit" class="btn bg-primary btn-sm text-white" id="btnSubmit">Terapkan</button>
+                <button type="submit" class="btn bg-primary btn-sm text-white" id="btnSubmitKeluar">Terapkan</button>
             </div>
         </form>
 
@@ -26,7 +26,7 @@
   $(document).on('submit', '#importExcelKeluar', function () {
         console.log('SUBMIT TERPANGGIL');
 
-        $('#btnSubmit')
+        $('#btnSubmitKeluar')
             .prop('disabled', true)
             .html('<span class="spinner-border spinner-border-sm"></span> Sedang Upload...');
         });
