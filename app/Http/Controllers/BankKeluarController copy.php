@@ -16,6 +16,7 @@ use App\Models\ItemSubKriteria;
 use App\Models\JenisPembayaran;
 use App\Exports\excelBankKeluar;
 use App\Models\KategoriKriteria;
+use Yajra\DataTables\DataTables;
 use App\Exports\reportKeluarExcel;
 use App\Imports\importSheetKeluar;
 use Illuminate\Support\Facades\DB;
@@ -94,7 +95,7 @@ class BankKeluarController extends Controller
             'jenis_pembayaran'
         )
         ->where('current_handler', 'pembayaran')
-        ->where('status_pembayaran', 'siap_dibayar')
+        ->where('status_pembayaran', 'belum_dibayar')
         ->get();
         
         // ->where('status_pembayaran', 'SIAP DIBAYAR')
@@ -357,7 +358,33 @@ class BankKeluarController extends Controller
     //     return view('cash_bank.dashboard', compact('total_pengeluaran', 'bulan','tahun'));
     // }
 
+    public function data(Request $request)
+{
+    $query = BankKeluar::with([
+        'sumberDana:id_sumber_dana,nama_sumber_dana',
+        'bankTujuan:id_bank_tujuan,nama_tujuan',
+        'kategori:id_kategori_kriteria,nama_kriteria',
+        'subKriteria:id_sub_kriteria,nama_sub_kriteria',
+        'itemSubKriteria:id_item_sub_kriteria,nama_item_sub_kriteria',
+        'jenisPembayaran:id_jenis_pembayaran,nama_jenis_pembayaran','nilai_rupiah','kredit','uraian','keterangan',
+        'penerima','no_sap','tanggal'
+    ]);
 
+    return DataTables::of($query)
+        ->addIndexColumn()
+        ->addColumn('agenda_tahun', fn($r) => $r->agenda_tahun ?? '-')
+        ->addColumn('tanggal', fn($r) => $r->tanggal ?? '-')
+        ->addColumn('sumber_dana', fn($r) => $r->sumberDana->nama_sumber_dana ?? '-')
+        ->addColumn('bank_tujuan', fn($r) => $r->bankTujuan->nama_tujuan ?? '-')
+        ->addColumn('kategori', fn($r) => $r->kategori->nama_kriteria ?? '-')
+        ->addColumn('sub_kriteria', fn($r) => $r->sub_kriteria->nama_sub_kriteria ?? '-')
+        ->addColumn('item_sub_kriteria', fn($r) => $r->item_sub_kriteria->nama_item_sub_kriteria ?? '-')
+        ->addColumn('jenis_pembayaran', fn($r) => $r->jenisPembayaran->nama_jenis_pembayaran ?? '-')
+        ->addColumn('kredit', fn($r) => number_format($r->kredit,0,',','.'))
+        ->addColumn('nilai_rupiah', fn($r) => number_format($r->nilai_rupiah,0,',','.'))
+        ->rawColumns(['aksi'])
+        ->make(true);
+}
 
     public function report(Request $request) {
     /* ================= AMBIL SEMUA REQUEST FILTER ================= */

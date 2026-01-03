@@ -35,6 +35,8 @@ return array(
     'App\\Imports\\importExcelMasukk' => $baseDir . '/app/Imports/importExcelMasukk.php',
     'App\\Imports\\importKeluar' => $baseDir . '/app/Imports/importKeluar.php',
     'App\\Imports\\importMasuk' => $baseDir . '/app/Imports/importMasuk.php',
+    'App\\Imports\\importSheet' => $baseDir . '/app/Imports/importSheet.php',
+    'App\\Imports\\importSheetKeluar' => $baseDir . '/app/Imports/importSheetKeluar.php',
     'App\\Models\\BankMasuk' => $baseDir . '/app/Models/BankMasuk.php',
     'App\\Models\\BankTujuan' => $baseDir . '/app/Models/BankTujuan.php',
     'App\\Models\\Dokumen' => $baseDir . '/app/Models/Dokumen.php',

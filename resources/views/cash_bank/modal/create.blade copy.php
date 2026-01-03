@@ -100,7 +100,7 @@
 
                     <div class="mt-2">
                         <label class="form-label">Uraian</label>
-                        <textarea rows="3"name="uraian" id="uraian" class="form-control" placeholder="Uraian"></textarea>
+                        <textarea rows="4"name="uraian" id="uraian" class="form-control" placeholder="Uraian"></textarea>
                     </div>
 
                     <div class="row mt-2">
@@ -180,11 +180,12 @@ $(document).ready(function() {
 
     // format rupiah
     document.querySelectorAll('.rupiah').forEach(function(input){
-        input.addEventListener('keyup', function(){
+        input.addEventListener('input', function(){
             let angka = this.value.replace(/[^0-9]/g, '');
             this.value = angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         });
     });
+    $('#nilai_rupiahh').val(response.data.nilai_rupiah).trigger('input');
     // ===============================
     // INIT SELECT2
     // ===============================
@@ -457,7 +458,17 @@ $(document).ready(function() {
         $('#pembayaran').val('');
     }
 
+    
 
+    $(document).on('input', '#nilai_rupiahh', function () {
+        let kredit = parseInt($('#kredit').val().replace(/\./g,'')) || 0;
+        let nilai = parseInt($(this).val().replace(/\./g,'')) || 0;
+
+        if (kredit < nilai) {
+            alert('Total kredit kurang dari nilai ajuan');
+            $(this).val('');
+        }
+    });
 });
 let splitIndex = 0;
 
@@ -638,6 +649,7 @@ $(document).on('click', '.remove-split', function () {
 SUBMIT FORM
 ================================ */
 $(document).on('submit', '#formBankKeluar', function () {
+    
     console.log('SUBMIT TERPANGGIL');
 
     $('#btnSubmit')

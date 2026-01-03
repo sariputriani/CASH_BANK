@@ -65,7 +65,7 @@ class dashboardController extends Controller
             ->sum('debet');
 
         // grafik berdasarkan kategori kriteria
-       $grafikKategori = BankKeluar::select(
+        $grafikKategori = BankKeluar::select(
         DB::raw("MONTH(tanggal) as bulan"),
         DB::raw("SUM(kredit) as total"),
             'id_kategori_kriteria'
@@ -93,17 +93,26 @@ class dashboardController extends Controller
         $agendaBelumSiapBayar = DB::connection('mysql_agenda_online')
         ->table('dokumens')
         ->whereYear('tanggal_masuk', $tahun)
-        ->where('status_pembayaran', 'belum_siap_dibayar')
+        // ->where('status_pembayaran', 'belum_siap_dibayar')
+        ->where('status', '!=','sent_to_pembayaran')
         ->where('current_handler', '!=','pembayaran')
+        ->where('status_pembayaran', null)
         ->value(DB::raw('SUM(dokumens.nilai_rupiah)'));
+        $agendaBelumSiapBayar = DB::connection('mysql_agenda_online')
+        ->table('dokumens')
+        ->whereYear('tanggal_masuk', $tahun)
+        ->where('status', '!=', 'sent_to_pembayaran')
+        ->where('current_handler', '!=', 'pembayaran')
+        ->whereNull('status_pembayaran')
+        ->value(DB::raw('SUM(dokumens.nilai_rupiah)'));
+
         $agendaSiapBayar = DB::connection('mysql_agenda_online')
         ->table('dokumens')
         ->whereYear('tanggal_masuk', $tahun)
         ->where('current_handler', 'pembayaran')
-        ->where('status_pembayaran', 'belum_dibayar')
+        ->where('status_pembayaran', 'siap_dibayar')
         ->value(DB::raw('SUM(dokumens.nilai_rupiah)'));
 
-        
 
         // Ubah array associative ke indexed array
         $kategori_nama = array_values($kategoriList->toArray());

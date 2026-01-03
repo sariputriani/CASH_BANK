@@ -15,12 +15,37 @@
             <div class="card rounded-3 border-0 shadow-sm">
                 <div class="card-body">
                     <div class="justify-content-start align-items-center mb-3">
-                            <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
+                            <!-- <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
                                 <div class="d-flex gap-2 flex-wrap">
                                     <a href="?status=belum" class="btn btn-outline-warning">Belum Siap Bayar</a>
                                     <a href="?status=siap" class="btn btn-outline-primary">Siap Bayar</a>
                                     <a href="?status=sudah" class="btn btn-outline-success">Sudah Dibayar</a>
                                     <a href="?status=" class="btn btn-light">Semua</a>
+                                </div>
+                            </div> -->
+                            <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
+                                <div class="d-flex gap-2 flex-wrap">
+
+                                    <a href="?status=belum"
+                                    class="btn {{ request('status') == 'belum' ? 'bg-warning text-white' : 'btn-outline-warning' }}">
+                                        Belum Siap Bayar
+                                    </a>
+
+                                    <a href="?status=siap"
+                                    class="btn {{ request('status') == 'siap' ? 'bg-primary text-white' : 'btn-outline-primary' }}">
+                                        Siap Bayar
+                                    </a>
+
+                                    <a href="?status=sudah"
+                                    class="btn {{ request('status') == 'sudah' ? 'bg-success text-white' : 'btn-outline-success' }}">
+                                        Sudah Dibayar
+                                    </a>
+
+                                    <a href="?status="
+                                    class="btn {{ request('status') == null ? 'bg-dark text-white' : 'btn-light' }}">
+                                        Semua
+                                    </a>
+
                                 </div>
                             </div>
                     </div>

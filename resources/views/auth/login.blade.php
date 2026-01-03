@@ -14,7 +14,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('adminLTE/dist/css/adminlte.min.css') }}">
 </head>
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" style="background-image: url('{{ asset('images/Logo PTPN IV.png') }}')">
 <div class="login-box">
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
@@ -33,7 +33,7 @@
       <form action="/login" method="post">
         @csrf
         @error('username')
-        <small class="text-danger">(( $massage ))</small>
+        <small class="text-danger">(( $message ))</small>
         @enderror
         <div class="input-group mb-3">
           <input type="text" name="username" class="form-control" placeholder="Username">
@@ -43,7 +43,7 @@
             </div>
           </div>
             @error('password')
-            <small class="text-danger">(( $massage ))</small>
+            <small class="text-danger">(( $message ))</small>
             @enderror
           <!-- <div class="invalid-feedback">
             Please choose a username
@@ -63,7 +63,7 @@
         <div class="row mt-2 mb-2">
           <div class="col-8">
             <div class="icheck-primary">
-              <input type="checkbox" id="remember">
+              <input type="checkbox" id="remember" name="remember">
               <label for="remember">
                 Remember Me
               </label>

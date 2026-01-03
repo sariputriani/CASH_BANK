@@ -110,8 +110,11 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/selected-employee', [BankKeluarController::class, 'deleteAll'])
             ->name('delete');
 
-    });
-
+            
+        });
+    Route::get('/bank-keluar/data', [BankKeluarController::class, 'data'])
+        ->name('bank-keluar.data');
+        
     Route::get('/detail-transaksi', [BankKeluarController::class, 'getDetailTransaksi'])
         ->name('bank-keluar.detail-transaksi');
 
